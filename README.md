@@ -1,7 +1,7 @@
 iptgen
 ===========
 
-iptgen is a tool for generating network packets from scripts to play into your netowrk or create a pcap file.
+iptgen is a tool to generate network packets from scripts to play them onto your netowrk or create a pcap file.
 
 
 Installing
@@ -33,7 +33,7 @@ Here are binaries:
 Usage
 ----------
 
-For playing packets into your network.
+For playing packets onto your network.
 
 ```
 iptgen.bin --in.file <script-file> --out.eth <ifname>
