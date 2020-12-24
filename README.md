@@ -25,11 +25,9 @@ Install in the standard way:
 Binaries
 ----------
 Here are binaries:
-* [Linux 64-bit](https://git.bullercodeworks.com/brian/boltbrowser/releases/download/2.0/boltbrowser.linux64.zip)
-* [Linux 32-bit](https://git.bullercodeworks.com/brian/boltbrowser/releases/download/2.0/boltbrowser.linux386.zip)
-* [Windows 32-bit](https://git.bullercodeworks.com/brian/boltbrowser/releases/download/2.0/boltbrowser.win386.exe.zip)
-
-https://github.com/spearmin10/releases/download/0.6.0/iptgen.win32.zip
+* [Linux 64-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-x64.tar.gz)
+* [Linux 32-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-x86.tar.gz)
+* [Windows 32-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.win32.zip)
 
 
 Usage
@@ -77,7 +75,7 @@ iptgen.bin --help
 Syntex for scripts
 ----------
 
-A script is text that a list of `Process` are concatenated.
+A script is text that a list of `Process` or `String (comment)` are concatenated.
 
 ### Process
 
@@ -87,6 +85,8 @@ A script is text that a list of `Process` are concatenated.
 | --- | --- | --- |
 | client | String | Client IP Address (e.g. 192.168.1.2), Port numer is optional. |
 | server | String | Server IP Address (e.g. 1.2.3.4:80), Port numer is optional. |
+| eth.src (Optional) | String | Client MAC Address (e.g. 11:22:33:44:55:66) |
+| eth.dst (Optional) | String | Server MAC Address (e.g. 11:22:33:44:55:66) |
 | sequence | Sequence | Sequence of sessions |
 
 
@@ -106,6 +106,7 @@ A script is text that a list of `Process` are concatenated.
 > **Data Type**: Operation or Array[Operation]
 
 
+
 ### Operation: none
 <details><summary>
 No operation.
@@ -117,6 +118,12 @@ No operation.
 | --- | --- | --- |
 | op | String | `none` |
 
+```
+{
+  "op": "none"
+}
+```
+
 
 #### Compact Syntex
 
@@ -124,6 +131,10 @@ No operation.
 | --- | --- | --- |
 | [0] | String | `none` |
 
+
+```
+["none"]
+```
 
 </details>
 
@@ -147,6 +158,19 @@ No operation.
 | l.sequence | Sequence | Sequence of operations in the loop |
 
 
+```
+{
+  "op": "for",
+  "l.begin": 0,
+  "l.end": 10,
+  "l.name": "i",
+  "l.sequence": [
+    ["dns.q.a", "www.domain.com", "3.3.3.3"]
+  ]
+}
+```
+
+
 #### Compact Syntex
 
 | **Index** | **Type** | **Value / Description** |
@@ -156,6 +180,13 @@ No operation.
 | [2] | String | l.name |
 | [3] | Sequence | l.sequence |
 
+```
+["for", [0, 10], "i",
+  [
+    ["dns.q.a", "www.domain.com", "2.2.2.2"]
+  ]
+]
+```
 
 </details>
 
@@ -174,6 +205,14 @@ Run operations in the infinite loop
 | op | String | `loop` |
 | l.sequence | Sequence | Sequence of operations in the loop |
 
+```
+{
+  "op": "loop",
+  "l.sequence": [
+    ["dns.q.a", "www.domain.com", "3.3.3.3"]
+  ]
+}
+```
 
 #### Compact Syntex
 
@@ -182,6 +221,13 @@ Run operations in the infinite loop
 | [0] | String | `loop` |
 | [1] | Sequence | l.sequence |
 
+```
+["loop",
+  [
+    ["dns.q.a", "www.domain.com", "2.2.2.2"]
+  ]
+]
+```
 
 </details>
 
@@ -206,6 +252,18 @@ A new port is assigned for a new session when closing the session.
 | l.name | String | Name of the counter |
 | l.sequence | Sequence | Sequence of operations in the loop |
 
+```
+{
+  "op": "for.session",
+  "l.begin": 0,
+  "l.end": 10,
+  "l.name": "i",
+  "l.sequence": [
+    ["tcp.send", "text", "Hello"],
+    ["tcp.recv", "text", "Hello"]
+  ]
+}
+```
 
 #### Compact Syntex
 
@@ -216,6 +274,14 @@ A new port is assigned for a new session when closing the session.
 | [2] | String | l.name |
 | [3] | Sequence | l.sequence |
 
+```
+["for.session", [0, 10], "i",
+  [
+    ["tcp.send", "text", "Hello"],
+    ["tcp.recv", "text", "Hello"]
+  ]
+]
+```
 
 </details>
 
@@ -235,6 +301,15 @@ A new port is assigned for a new session when closing the session.
 | op | String | `loop.session` |
 | l.sequence | Sequence | Sequence of operations in the loop |
 
+```
+{
+  "op": "loop.session",
+  "l.sequence": [
+    ["tcp.send", "text", "Hello"],
+    ["tcp.recv", "text", "Hello"]
+  ]
+}
+```
 
 #### Compact Syntex
 
@@ -243,6 +318,14 @@ A new port is assigned for a new session when closing the session.
 | [0] | String | `loop.session` |
 | [1] | Sequence | l.sequence |
 
+```
+["loop.session", [0, 10], "i",
+  [
+    ["tcp.send", "text", "Hello"],
+    ["tcp.recv", "text", "Hello"]
+  ]
+]
+```
 
 </details>
 
@@ -266,6 +349,22 @@ New client/server IPs can be used in the processes.
 | l.name | String | Name of the counter |
 | l.sequence | Process | Sequence of processes in the loop |
 
+```
+{
+  "op": "for.process",
+  "l.begin": 0,
+  "l.end": 10,
+  "l.name": "i",
+  "l.sequence": {
+    "client": "1.1.1.1", 
+    "server": "2.2.2.2:80",
+    "sequence": [
+      ["tcp.send", "text", "Hello"],
+      ["tcp.recv", "text", "Hello"]
+    ]
+  }
+}
+```
 
 #### Compact Syntex
 
@@ -276,6 +375,18 @@ New client/server IPs can be used in the processes.
 | [2] | String | l.name |
 | [3] | Process | l.sequence |
 
+```
+["for.process", [0, 10], "i",
+  {
+    "client": "1.1.1.1", 
+    "server": "2.2.2.2:80",
+    "sequence": [
+      ["tcp.send", "text", "Hello"],
+      ["tcp.recv", "text", "Hello"]
+    ]
+  }
+]
+```
 
 </details>
 
@@ -291,7 +402,7 @@ Comment statement. The statement doesn't affect the control flow.
 
 | **Key** | **Type** | **Value** |
 | --- | --- | --- |
-| op | String | `comment` |
+| op | String | `comment` or `` (empty) |
 | <any> | Any | Comment |
 
 ```
@@ -301,16 +412,26 @@ Comment statement. The statement doesn't affect the control flow.
 }
 ```
 
+```
+{
+  "op": "",
+  "": "This is a comment."
+}
+```
 
 #### Compact Syntex
 
 | **Index** | **Type** | **Value / Description** |
 | --- | --- | --- |
-| [0] | String | `comment` |
+| [0] | String | `comment` or `` (empty) |
 | [1-] | Any | Comment |
 
 ```
 ["comment", "This is a comment."]
+```
+
+```
+["", "This is a comment."]
 ```
 
 
