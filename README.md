@@ -11,14 +11,14 @@ Install in the standard way:
 
 ### Windows
 
-1. Install `npcap` driver. Visit https://nmap.org/npcap/ to download and install the driver.
+1. Install `npcap` driver. Visit https://nmap.org/npcap/ to download and install it.
 
 2. Extract `iptgen.win32.zip`.
 
 
 ### Linux
 
-1. Choose the archive file appropriate for your platform, `iptgen.linux-x86.tar.gz` or `iptgen.linux-64.tar.gz`, and extract it.
+1. Choose the archive file appropriate for your platform, `iptgen.linux-x86_64.tar.gz` or `iptgen.linux-i686.tar.gz`, and extract it.
 
 
 
@@ -81,6 +81,8 @@ A script is text that a list of `Process` or `String (comment)` are concatenated
 
 > **Data Type**: Object[String, Any] or Array[Object[String, Any]]
 
+<details><summary>Details</summary>
+
 | **Key** | **Type** | **Description** |
 | --- | --- | --- |
 | client | String | Client IP Address (e.g. 192.168.1.2), Port numer is optional. |
@@ -89,6 +91,7 @@ A script is text that a list of `Process` or `String (comment)` are concatenated
 | eth.dst (Optional) | String | Server MAC Address (e.g. 11:22:33:44:55:66) |
 | sequence | Sequence | Sequence of sessions |
 
+</details>
 
 ### Sequence
 
