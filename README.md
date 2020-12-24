@@ -25,8 +25,8 @@ Install in the standard way:
 Binaries
 ----------
 Here are binaries:
-* [Linux 64-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-x64.tar.gz)
-* [Linux 32-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-x86.tar.gz)
+* [Linux 64-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-x86_64.tar.gz)
+* [Linux 32-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.linux-i686.tar.gz)
 * [Windows 32-bit](https://github.com/spearmin10/releases/download/0.6.0/iptgen.win32.zip)
 
 
@@ -1773,3 +1773,4 @@ Out:
 
 
 </details>
+
