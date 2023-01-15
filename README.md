@@ -1567,6 +1567,8 @@ Payload data to send or receive.
 | exec | Use the data from stdout of the process executed. ${}-wrapped variable in the data is replaced with the value. |
 | exec.raw | Use the data from stdout of the process executed. |
 | multi | Concatenate payloads in different payload types. |
+| comment | Comments. |
+| (empty string) | Comments. |
 
 
 #### Value
