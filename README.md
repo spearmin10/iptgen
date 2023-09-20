@@ -1069,10 +1069,22 @@ No packets are generated when it is already established.
 | **Key** | **Type** | **Value** |
 | --- | --- | --- |
 | op | String | `ssl.handshake` |
+| tls.version (Optional) | String | TLS version |
+| p12.filepath (Optional) | String | The path of the PKCS#12 file |
+| p12.password (Optional) | String | The password for the PKCS#12 file |
 
 ```
 {
   "op": "ssl.handshake"
+}
+```
+
+```
+{
+  "op": "ssl.handshake",
+  "tls.version": "1.2",
+  "p12.filepath": "server.p12",
+  "p12.password": "password"
 }
 ```
 
@@ -1081,9 +1093,19 @@ No packets are generated when it is already established.
 | **Index** | **Type** | **Value / Description** |
 | --- | --- | --- |
 | [0] | String | `ssl.handshake` |
+| [1] (Optional) | String | TLS version |
+| [2] (Optional) | Array[String] | p12.filepath and p12.password |
 
 ```
 ["ssl.handshake"]
+```
+
+```
+["ssl.handshake", "1.2", ["server.p12", "password"]]
+```
+
+```
+["ssl.handshake", "", ["server.p12", "password"]]
 ```
 
 </details>
@@ -1282,7 +1304,7 @@ Generate packets sent and received in a DNS A record query transaction.
 | --- | --- | --- |
 | [0] | String | `dns.q.a` |
 | [1] | String | q.name |
-| [1] (Optional) | String or Array[String] or Array[Object[String,String] | r.answers |
+| [2] (Optional) | String or Array[String] or Array[Object[String,String] | r.answers |
 
 ```
 ["dns.q.a", "www.domain.com"]
@@ -1556,6 +1578,10 @@ Payload data to send or receive.
 | --- | --- |
 | text | Text. ${}-wrapped variable in the text is replaced with the value. |
 | text.raw | Raw text. |
+| utf16be | Use the text encoded as UTF-16BE from the UTF-8 text given. ${}-wrapped variable in the text is replaced with the value. |
+| utf16be.raw | Use the text encoded as UTF-16BE from the UTF-8 text given. |
+| utf16le | Use the text encoded as UTF-16LE from the UTF-8 text given. ${}-wrapped variable in the text is replaced with the value. |
+| utf16le.raw | Use the text encoded as UTF-16LE from the UTF-8 text given. |
 | urlenc | Use the decoded value of the text in URL encoding. ${}-wrapped variable in the payload is replaced with the value. |
 | urlenc.raw | Use the decoded value of the text in URL encoding. |
 | base64 | Use the decoded value of the text in base64. ${}-wrapped variable in the payload is replaced with the value. |
@@ -1567,8 +1593,6 @@ Payload data to send or receive.
 | exec | Use the data from stdout of the process executed. ${}-wrapped variable in the data is replaced with the value. |
 | exec.raw | Use the data from stdout of the process executed. |
 | multi | Concatenate payloads in different payload types. |
-| comment | Comments. |
-| (empty string) | Comments. |
 
 
 #### Value
